@@ -1,8 +1,18 @@
-export type GameData = {
+export interface GameData {
+  id: string;
   name: string;
-  rating: number;
-  numRatings: number;
-  category: string;
-  year: number;
-  complexity: number;
-};
+  description: string;
+  image: string;
+  thumbnail: string;
+  categories: string[];
+  number_of_ratings: number;
+  rating_average: number;
+  owned_number: number;
+  rank: {
+    [key: string]: number;
+  };
+  weight_average: number;
+  yearpublished: number;
+}
+
+export type D3SvgSelection = d3.Selection<SVGSVGElement, unknown, HTMLElement, any>;
