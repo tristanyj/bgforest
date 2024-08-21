@@ -13,6 +13,8 @@ export interface GameData {
   };
   weight_average: number;
   yearpublished: number;
+  categoryScore: number;
+  colors: string[];
 }
 
 export type D3SvgSelection = d3.Selection<SVGSVGElement, unknown, HTMLElement, any>;

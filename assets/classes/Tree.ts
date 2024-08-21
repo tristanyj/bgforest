@@ -1,5 +1,14 @@
 import * as d3 from 'd3';
+import { createNoise2D } from 'simplex-noise';
 import type { GameData, D3SvgSelection } from '~/types';
+
+function adjustColor(color: string) {
+  const hcl = d3.hcl(color);
+  hcl.c += (Math.random() + 0.5) * 10; // Adjust chroma
+  hcl.l += (Math.random() + 0.5) * 10; // Adjust lightness
+  hcl.opacity = 0.025;
+  return hcl.toString();
+}
 
 class Tree {
   group: any;
@@ -7,16 +16,22 @@ class Tree {
   gameData: GameData;
   maxDepth: number;
   branchAngle: number;
+  ratioBranchAngle: number;
   initialLength: number;
   lengthFactor: number;
+  colors: string[];
+  noise: any;
 
-  constructor(index: number, gameData: GameData, initialLength = 50, maxDepth = 7, branchAngle = Math.PI / 7, lengthFactor = 0.8) {
+  constructor(index: number, gameData: GameData, initialLength = 50, maxDepth = 7, branchAngle = Math.PI / 7, ratioBranchAngle = 5, lengthFactor = 0.8, colors: string[]) {
     this.index = index;
     this.gameData = gameData;
     this.maxDepth = maxDepth;
     this.branchAngle = branchAngle;
+    this.ratioBranchAngle = ratioBranchAngle;
     this.initialLength = initialLength;
     this.lengthFactor = lengthFactor;
+    this.colors = colors;
+    this.noise = createNoise2D();
   }
 
   init(svg: D3SvgSelection) {
@@ -32,10 +47,7 @@ class Tree {
     const x2 = x1 + length * Math.cos(angle);
     const y2 = y1 - length * Math.sin(angle);
 
-    const color = d3.color('#69a3b2');
-    if (color) {
-      color.opacity = 0.1;
-    }
+    const color = adjustColor(this.colors[Math.floor(Math.random() * this.colors.length)]);
 
     // <path d="M10 20 Q 15 10 20 20 T 30 20" />
     // <path d="M10 30 Q 15 10 20 30 T 30 30" />
@@ -50,7 +62,7 @@ class Tree {
     //   .attr('fill', color)
     //   .attr('class', 'leaf');
 
-    this.group.append('circle').attr('cx', x1).attr('cy', y1).attr('r', 10).attr('fill', color).attr('stroke', 'none');
+    this.group.append('circle').attr('cx', x1).attr('cy', y1).attr('r', 19).attr('fill', color).attr('stroke', 'none');
     // this.group
     //   .append('rect')
     //   .attr('x', x1 - 10)
@@ -60,21 +72,20 @@ class Tree {
     //   .attr('fill', color)
     //   .attr('stroke', 'none');
 
+    const lineColor = d3.color('#4b1818');
+    if (lineColor) {
+      const scale = d3.scaleLinear().domain([-1, 1]).range([0.1, 0.9]);
+      lineColor.opacity = scale(this.noise(x1, y1 * 100));
+    }
+
     this.group
       .append('line')
       .attr('x1', x1)
       .attr('y1', y1)
       .attr('x2', x2)
       .attr('y2', y2)
-      .attr('stroke-width', Math.max(1, depth / 2));
-    // .attr('stroke', 'black');
-
-    // const defs = this.group.append('defs');
-    // const filter = defs.append('filter').attr('id', 'glow');
-    // filter.append('feGaussianBlur').attr('stdDeviation', '10').attr('result', 'coloredBlur');
-    // const feMerge = filter.append('feMerge');
-    // feMerge.append('feMergeNode').attr('in', 'coloredBlur');
-    // feMerge.append('feMergeNode').attr('in', 'SourceGraphic');
+      .attr('stroke-width', Math.max(1, depth / 2))
+      .attr('stroke', lineColor);
 
     if (x1 === 0) {
       // Append text label at the base of the tree
@@ -94,13 +105,12 @@ class Tree {
         .attr('stroke-width', 1)
         .text(() => this.gameData.rating_average);
 
-      // Measure the text size and adjust its position
       const bbox = text.node().getBBox();
       text.attr('x', x1 - bbox.width / 2).attr('y', y1 + bbox.height / 2 + 15);
     }
 
-    // const randomBranchAngle = this.branchAngle * (Math.random() - 0.5) * 4;
-    const randomBranchAngle = this.branchAngle;
+    const randomBranchAngle = this.branchAngle * (this.ratioBranchAngle / 4.5) + (this.noise(x1, y1) * Math.PI) / 12;
+    // const randomBranchAngle = this.branchAngle * (this.ratioBranchAngle / 50) + this.noise(x1, y1);
 
     this.draw(length * this.lengthFactor, angle - randomBranchAngle, x2, y2, depth - 1);
     this.draw(length * this.lengthFactor, angle + randomBranchAngle, x2, y2, depth - 1);

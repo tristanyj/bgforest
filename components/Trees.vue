@@ -7,7 +7,7 @@ import Forest from '~/assets/classes/Forest';
 const props = defineProps<{ data: GameData[] }>();
 
 const SVG_MAX_WIDTH = 2000;
-const SVG_MAX_HEIGHT = 6500;
+const SVG_MAX_HEIGHT = 8500;
 
 const container = ref(undefined);
 
