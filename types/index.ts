@@ -17,4 +17,6 @@ export interface GameData {
   colors: string[];
 }
 
+export type SortMode = 'name' | 'rating' | 'weight' | 'year' | 'owned';
+
 export type D3SvgSelection = d3.Selection<SVGSVGElement, unknown, HTMLElement, any>;

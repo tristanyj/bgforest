@@ -46,7 +46,8 @@
       </NuxtLink>
     </div>
     <div :class="$style.title">Board Game Forest</div>
-    <div :class="$style.description">Games from the BoardGameGeek Top 100 re-imagined as trees</div>
+    <div :class="$style.description">Games from the BoardGameGeek Top 100 re-imagined as trees.</div>
+    <div :class="$style.explanation">Leaf colors correpond to the game's box art. Year of publication influences tree length. Average rating influences tree length and leaf size. Game complexity influences number of ramifications. Number of games owned and category rarity influence branches' spread.</div>
     <div :class="$style.separator" />
   </div>
 </template>
@@ -110,6 +111,13 @@
 }
 
 .description {
-  color: var(--mauve-10);
+  color: var(--mauve-12);
+}
+
+.explanation {
+  color: var(--mauve-9);
+  max-width: 700px;
+  margin: 0 auto;
+  margin-top: 10px;
 }
 </style>
