@@ -1,3 +1,26 @@
+:root {
+  --background-color: #fff;
+  --mauve-1: #fdfcfd;
+  --mauve-2: #faf9fb;
+  --mauve-3: #f2eff3;
+  --mauve-4: #eae7ec;
+  --mauve-5: #e3dfe6;
+  --mauve-6: #dbd8e0;
+  --mauve-7: #d0cdd7;
+  --mauve-8: #bcbac7;
+  --mauve-9: #8e8c99;
+  --mauve-10: #84828e;
+  --mauve-11: #65636d;
+  --mauve-12: #211f26;
+}
+
+html {
+  font-family: 'Noto Serif', sans-serif;
+  font-size: 16px;
+  color: var(--mauve-12);
+  background-color: var(--background-color);
+}
+
 svg {
   width: 100%;
   max-width: 1000px;
@@ -8,12 +31,16 @@ svg {
 .label {
   font-size: 22px;
   stroke: none;
-  fill: black;
   font-weight: 500;
-  opacity: 0.45;
+  fill: var(--mauve-12);
   font-family: 'EB Garamond', 'Noto Serif', 'PT Serif', 'Playfair Display', serif;
-  // font-family: 'Noto Serif', sans-serif;
-  // font-family: 'PT Serif', sans-serif;
-  // font-family: 'Playfair Display', sans-serif;
   text-transform: uppercase;
+}
+
+.nav-container {
+  margin: 0 auto;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
