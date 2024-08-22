@@ -19,10 +19,11 @@ class Tree {
   ratioBranchAngle: number;
   initialLength: number;
   lengthFactor: number;
+  leafSize: number;
   colors: string[];
   noise: any;
 
-  constructor(index: number, gameData: GameData, initialLength = 50, maxDepth = 7, branchAngle = Math.PI / 7, ratioBranchAngle = 5, lengthFactor = 0.8, colors: string[]) {
+  constructor(index: number, gameData: GameData, initialLength = 50, maxDepth = 7, branchAngle = Math.PI / 7, ratioBranchAngle = 5, lengthFactor = 0.8, leafSize = 15, colors: string[]) {
     this.index = index;
     this.gameData = gameData;
     this.maxDepth = maxDepth;
@@ -30,6 +31,7 @@ class Tree {
     this.ratioBranchAngle = ratioBranchAngle;
     this.initialLength = initialLength;
     this.lengthFactor = lengthFactor;
+    this.leafSize = leafSize;
     this.colors = colors;
     this.noise = createNoise2D();
   }
@@ -62,7 +64,7 @@ class Tree {
     //   .attr('fill', color)
     //   .attr('class', 'leaf');
 
-    this.group.append('circle').attr('cx', x1).attr('cy', y1).attr('r', 19).attr('fill', color).attr('stroke', 'none');
+    this.group.append('circle').attr('cx', x1).attr('cy', y1).attr('r', this.leafSize).attr('fill', color).attr('stroke', 'none');
     // this.group
     //   .append('rect')
     //   .attr('x', x1 - 10)
@@ -109,7 +111,7 @@ class Tree {
       text.attr('x', x1 - bbox.width / 2).attr('y', y1 + bbox.height / 2 + 15);
     }
 
-    const randomBranchAngle = this.branchAngle * (this.ratioBranchAngle / 4.5) + (this.noise(x1, y1) * Math.PI) / 12;
+    const randomBranchAngle = this.branchAngle * (this.ratioBranchAngle / 4.75) + (this.noise(x1, y1) * Math.PI) / 9;
     // const randomBranchAngle = this.branchAngle * (this.ratioBranchAngle / 50) + this.noise(x1, y1);
 
     this.draw(length * this.lengthFactor, angle - randomBranchAngle, x2, y2, depth - 1);

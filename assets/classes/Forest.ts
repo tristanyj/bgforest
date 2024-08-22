@@ -46,6 +46,7 @@ class Forest {
     const depthScale = d3.scaleLinear().domain([1, 4.5]).range([4, 9]);
     const lengthFactorScale = d3.scaleLinear().domain([this.minRating, this.maxRating]).range([0.78, 0.89]);
     const ratioBranchAngleScale = d3.scaleLinear().domain([this.minCategoryScore, this.maxCategoryScore]).range([8, 3]);
+    const leafSizeScale = d3.scaleLinear().domain([this.minRating, this.maxRating]).range([10, 26]);
     const branchAngleScale = d3
       .scaleLinear()
       .domain([this.minOwnedNumber, this.maxOwnedNumber])
@@ -58,9 +59,10 @@ class Forest {
       const branchAngle = branchAngleScale(datum.number_of_ratings);
       const lengthFactor = lengthFactorScale(datum.rating_average);
       const ratioBranchAngle = ratioBranchAngleScale(datum.categoryScore);
+      const leafSize = leafSizeScale(datum.rating_average);
       const colors = datum.colors;
 
-      const t = new Tree(i, datum, initialLength, maxDepth, branchAngle, ratioBranchAngle, lengthFactor, colors);
+      const t = new Tree(i, datum, initialLength, maxDepth, branchAngle, ratioBranchAngle, lengthFactor, leafSize, colors);
       this.trees.push(t);
     }
   }
