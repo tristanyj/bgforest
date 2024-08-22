@@ -9,18 +9,19 @@ const sortMode = ref(sortModes[0]);
 const sortedData = computed(() => {
   if (!data.value) return [];
   return data.value.sort((a, b) => {
-    if (sortMode.value === 'rating') {
-      return b.rating_average - a.rating_average;
-    } else if (sortMode.value === 'name') {
-      return a.name.localeCompare(b.name);
-    } else if (sortMode.value === 'weight') {
-      return b.weight_average - a.weight_average;
-    } else if (sortMode.value === 'year') {
-      return b.yearpublished - a.yearpublished;
-    } else if (sortMode.value === 'owned') {
-      return b.owned_number - a.owned_number;
-    } else {
-      return 0;
+    switch (sortMode.value) {
+      case 'rating':
+        return b.rating_average - a.rating_average;
+      case 'name':
+        return a.name.localeCompare(b.name);
+      case 'weight':
+        return b.weight_average - a.weight_average;
+      case 'year':
+        return b.yearpublished - a.yearpublished;
+      case 'owned':
+        return b.owned_number - a.owned_number;
+      default:
+        return 0;
     }
   });
 });
