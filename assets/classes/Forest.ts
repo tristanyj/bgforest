@@ -3,9 +3,8 @@ import Tree from './Tree';
 import type { GameData, D3SvgSelection } from '~/types';
 
 class Forest {
-  categoryScoreChart: { [key: string]: number } = {};
-  data: GameData[];
   trees: Tree[] = [];
+  data: GameData[];
   svg: D3SvgSelection;
   minYear: number;
   maxYear: number;

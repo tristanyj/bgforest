@@ -108,6 +108,14 @@
   font-weight: 400;
   font-family: 'Playfair Display', serif;
   color: var(--secondary-color);
+
+  @media screen and (max-width: 1024px) {
+    font-size: 36px;
+  }
+
+  @media screen and (max-width: 768px) {
+    font-size: 28px;
+  }
 }
 
 .description {
