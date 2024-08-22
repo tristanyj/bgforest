@@ -5,7 +5,8 @@
         :class="$style.link"
         to="https://tristanyj.com"
         target="_blank"
-        >TristanYj
+      >
+        TristanYj
         <svg
           :class="$style.icon"
           width="15"
@@ -23,7 +24,7 @@
         </svg>
       </NuxtLink>
       <NuxtLink
-        to="https://tristanyj.com"
+        to="https://github.com/tristanyj"
         target="_blank"
         :class="$style.link"
       >
@@ -52,29 +53,26 @@
 
 <style lang="scss" module>
 .container {
-  display: grid;
-  gap: 10px;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+  gap: 8px;
   padding: 0px;
 }
 
 .socials {
   display: grid;
+  gap: 1px;
   grid-auto-flow: column;
   justify-content: center;
   align-items: center;
   background-color: var(--mauve-2);
   border-radius: 10px;
-  margin: 40px auto 10px auto;
+  margin: 50px auto 10px auto;
   padding: 7px;
 }
 
 .link {
   display: grid;
   grid-auto-flow: column;
-  gap: 5px;
+  gap: 3px;
   align-items: center;
   justify-content: center;
   text-decoration: none;
@@ -83,7 +81,6 @@
   height: 100%;
   font-size: 13px;
   border-radius: 5px;
-  font-family: 'Inter', sans-serif;
   font-weight: 400;
 
   &:hover {
@@ -103,6 +100,7 @@
   background-color: #000;
   opacity: 0.1;
 }
+
 .title {
   font-size: 48px;
   text-transform: uppercase;
@@ -112,7 +110,6 @@
 }
 
 .description {
-  font-family: 'Inter', sans-serif;
-  color: var(--mauve-11);
+  color: var(--mauve-10);
 }
 </style>
