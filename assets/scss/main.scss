@@ -5,17 +5,15 @@ svg {
   height: 100%;
 }
 
-// .tree {
-//   stroke: #4b1818;
-//   fill: none;
-// }
-
 .label {
-  font-size: 16px;
+  font-size: 22px;
   stroke: none;
   fill: black;
+  font-weight: 500;
+  opacity: 0.45;
+  font-family: 'EB Garamond', 'Noto Serif', 'PT Serif', 'Playfair Display', serif;
+  // font-family: 'Noto Serif', sans-serif;
+  // font-family: 'PT Serif', sans-serif;
+  // font-family: 'Playfair Display', sans-serif;
+  text-transform: uppercase;
 }
-
-// .leaf {
-//   fill: green;
-// }

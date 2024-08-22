@@ -3,6 +3,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
   css: ['~/assets/scss/main.scss'],
+
   vite: {
     css: {
       preprocessorOptions: {
@@ -13,6 +14,7 @@ export default defineNuxtConfig({
       },
     },
   },
+
   app: {
     head: {
       htmlAttrs: { lang: 'en' },
@@ -31,4 +33,5 @@ export default defineNuxtConfig({
       noscript: [],
     },
   },
+  modules: ['@nuxt/fonts'],
 });

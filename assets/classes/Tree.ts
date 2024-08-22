@@ -6,8 +6,58 @@ function adjustColor(color: string) {
   const hcl = d3.hcl(color);
   hcl.c += (Math.random() + 0.5) * 10; // Adjust chroma
   hcl.l += (Math.random() + 0.5) * 10; // Adjust lightness
-  hcl.opacity = 0.025;
+  hcl.opacity = 0.029;
   return hcl.toString();
+}
+
+function wrapText(text, maxWidth) {
+  text.each(function () {
+    const text = d3.select(this);
+    const words = text.text().split(/\s+/).reverse();
+    let word;
+    let line = [];
+    let lineNumber = 0;
+    const lineHeight = 1.1; // ems
+    const y = text.attr('y');
+    const dy = parseFloat(text.attr('dy')) || 0;
+    let tspan = text
+      .text(null)
+      .append('tspan')
+      .attr('x', 0)
+      .attr('y', y)
+      .attr('dy', dy + 'em');
+
+    while ((word = words.pop())) {
+      line.push(word);
+      tspan.text(line.join(' '));
+      if (tspan.node().getComputedTextLength() > maxWidth) {
+        line.pop();
+        tspan.text(line.join(' '));
+        line = [word];
+        tspan = text
+          .append('tspan')
+          .attr('x', 0)
+          .attr('y', y)
+          .attr('dy', ++lineNumber * lineHeight + dy + 'em')
+          .text(word);
+      }
+    }
+
+    // Calculate the maximum width of the text block
+    const textWidth = Math.max(
+      ...text
+        .selectAll('tspan')
+        .nodes()
+        .map((tspan) => tspan.getComputedTextLength()),
+    );
+
+    // Center each line by adjusting the x attribute of each tspan
+    text.selectAll('tspan').each(function () {
+      const tspan = d3.select(this);
+      const tspanWidth = tspan.node().getComputedTextLength();
+      tspan.attr('x', (textWidth - tspanWidth) / 2);
+    });
+  });
 }
 
 class Tree {
@@ -37,10 +87,7 @@ class Tree {
   }
 
   init(svg: D3SvgSelection) {
-    this.group = svg
-      .append('g')
-      .attr('transform', `translate(${(this.index % 5) * 400 + 175},${Math.floor(this.index / 5) * 400 + 300})`)
-      .attr('class', 'tree');
+    this.group = svg.append('g').attr('transform', `translate(${(this.index % 5) * 400 + 175},${Math.floor(this.index / 5) * 400 + 300})`);
   }
 
   draw(length = this.initialLength, angle = Math.PI / 2, x1 = 0, y1 = 0, depth = this.maxDepth) {
@@ -90,25 +137,33 @@ class Tree {
       .attr('stroke', lineColor);
 
     if (x1 === 0) {
+      // Create a group element to wrap the text
+      const textGroup = this.group.append('g').attr('transform', `translate(${x1}, ${y1})`);
+
       // Append text label at the base of the tree
-      const text = this.group
+      const text = textGroup
         .append('text')
         .attr('x', x1)
         .attr('y', y1 + 15)
         .attr('class', 'label')
         .attr('stroke-width', 1)
-        .text(() => this.gameData.name);
+        .text(() => this.gameData.name)
+        .call(wrapText, 300); // Adjust the width as needed
+      // .tspans(function (d) {
+      //   return d3.wordwrap(text, 15); // break line after 15 characters
+      // });
 
-      this.group
-        .append('text')
-        .attr('x', x1 - 15)
-        .attr('y', y1 + 45)
-        .attr('class', 'label')
-        .attr('stroke-width', 1)
-        .text(() => this.gameData.rating_average);
+      // this.group
+      //   .append('text')
+      //   .attr('x', x1 - 15)
+      //   .attr('y', y1 + 45)
+      //   .attr('class', 'label')
+      //   .attr('stroke-width', 1)
+      //   .text(() => this.gameData.rating_average);
 
+      // Center the entire text block
       const bbox = text.node().getBBox();
-      text.attr('x', x1 - bbox.width / 2).attr('y', y1 + bbox.height / 2 + 15);
+      textGroup.attr('transform', `translate(${x1 - bbox.width / 2}, ${y1 + 30})`);
     }
 
     const randomBranchAngle = this.branchAngle * (this.ratioBranchAngle / 4.75) + (this.noise(x1, y1) * Math.PI) / 9;

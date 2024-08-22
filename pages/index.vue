@@ -3,7 +3,7 @@ import type { GameData } from '~/types';
 const { data } = useFetch<GameData[]>('https://api-python.tristanyj.com/top');
 const sortMode = ref('a-z');
 
-const parsedData = computed(() => {
+const sortedData = computed(() => {
   if (!data.value) return [];
   return data.value.sort((a, b) => {
     if (sortMode.value === 'a-z') {
@@ -13,10 +13,8 @@ const parsedData = computed(() => {
     }
   });
 });
-
-console.log(parsedData.value);
 </script>
 
 <template>
-  <Trees :data="parsedData" />
+  <Trees :data="sortedData" />
 </template>
