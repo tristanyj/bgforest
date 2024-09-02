@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import type { GameData, SortMode } from '~/types';
-
-const { data } = useFetch<GameData[]>('https://api-python.tristanyj.com/top');
+import cache from '~/assets/cache.json';
 
 const sortModes: SortMode[] = ['name', 'rating', 'weight', 'year', 'owned'];
 const sortMode = ref(sortModes[0]);
+
+const data = ref(JSON.parse(JSON.stringify(cache.games))) as Ref<GameData[]>;
 
 const sortedData = computed(() => {
   if (!data.value) return [];
