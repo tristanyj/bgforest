@@ -43,5 +43,16 @@ export default defineNuxtConfig({
       noscript: [],
     },
   },
-  modules: ['@nuxt/fonts'],
+  imports: {
+    dirs: ['stores/**'],
+  },
+  modules: [
+    '@nuxt/fonts',
+    [
+      '@pinia/nuxt',
+      {
+        autoImports: ['defineStore', 'storeToRefs'],
+      },
+    ],
+  ],
 });

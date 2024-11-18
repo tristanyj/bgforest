@@ -2,7 +2,10 @@ import * as d3 from 'd3';
 import Tree from './Tree';
 import type { GameData, D3SvgSelection } from '~/types';
 
+import { useInteractionStore } from '~/stores/interaction';
+
 class Forest {
+  store: ReturnType<typeof useInteractionStore>;
   trees: Tree[] = [];
   data: GameData[];
   svg: D3SvgSelection;
@@ -19,7 +22,8 @@ class Forest {
   minNumberOfRatings: number;
   maxNumberOfRatings: number;
 
-  constructor(data: GameData[], svg: D3SvgSelection) {
+  constructor(data: GameData[], svg: D3SvgSelection, store: ReturnType<typeof useInteractionStore>) {
+    this.store = store;
     this.svg = svg;
     this.data = data;
 
@@ -82,7 +86,7 @@ class Forest {
       const leafSize = leafSizeScale(datum.rating_average);
       const colors = datum.colors;
 
-      const t = new Tree(i, datum, initialLength, maxDepth, branchAngle, ratioBranchAngle, lengthFactor, leafSize, colors);
+      const t = new Tree(this.store, i, datum, initialLength, maxDepth, branchAngle, ratioBranchAngle, lengthFactor, leafSize, colors);
       this.trees.push(t);
     }
   }

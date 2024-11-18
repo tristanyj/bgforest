@@ -3,6 +3,8 @@ import * as d3 from 'd3';
 import { createNoise2D } from 'simplex-noise';
 import type { GameData, D3SvgSelection } from '~/types';
 
+import { useInteractionStore } from '~/stores/interaction';
+
 function adjustColor(color: string) {
   const hcl = d3.hcl(color);
   hcl.c += (Math.random() + 0.5) * 10; // Adjust chroma
@@ -58,6 +60,7 @@ function wrapText(text: d3.Selection<SVGElement, any, any, any>, maxWidth: numbe
 }
 
 class Tree {
+  store: ReturnType<typeof useInteractionStore>;
   group: any;
   index: number;
   gameData: GameData;
@@ -70,7 +73,8 @@ class Tree {
   colors: string[];
   noise: any;
 
-  constructor(index: number, gameData: GameData, initialLength = 50, maxDepth = 7, branchAngle = Math.PI / 7, ratioBranchAngle = 5, lengthFactor = 0.8, leafSize = 15, colors: string[]) {
+  constructor(store: ReturnType<typeof useInteractionStore>, index: number, gameData: GameData, initialLength = 50, maxDepth = 7, branchAngle = Math.PI / 7, ratioBranchAngle = 5, lengthFactor = 0.8, leafSize = 15, colors: string[]) {
+    this.store = store;
     this.index = index;
     this.gameData = gameData;
     this.maxDepth = maxDepth;
@@ -84,11 +88,25 @@ class Tree {
   }
 
   init(svg: D3SvgSelection) {
-    this.group = svg.append('g').attr('transform', `translate(${(this.index % 5) * 400 + 175},${Math.floor(this.index / 5) * 400 + 300})`);
+    this.group = svg.append('g').attr('transform', `translate(${(this.index % 5) * 400 + 200},${Math.floor(this.index / 5) * 400 + 300})`);
+    this.group.append('rect').attr('class', 'tree-background').attr('x', -200).attr('y', -260).attr('width', 400).attr('height', 400).attr('fill', '#000');
   }
 
   draw(length = this.initialLength, angle = Math.PI / 2, x1 = 0, y1 = 0, depth = this.maxDepth) {
-    if (depth <= 0) return;
+    if (depth <= 0) {
+      this.group
+        .append('rect')
+        .attr('class', 'tree-background-hover')
+        .attr('x', -200)
+        .attr('y', -260)
+        .attr('width', 400)
+        .attr('height', 400)
+        .attr('fill', 'transparent')
+        .on('click', () => {
+          this.store.setSelectedGame(this.gameData);
+        });
+      return;
+    }
 
     const x2 = x1 + length * Math.cos(angle);
     const y2 = y1 - length * Math.sin(angle);

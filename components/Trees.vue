@@ -4,6 +4,8 @@ import { ref, onMounted } from 'vue';
 import type { GameData, SortMode, D3SvgSelection } from '~/types';
 import Forest from '~/assets/scripts/Forest';
 
+const interactionStore = useInteractionStore();
+
 const props = defineProps<{
   data: GameData[];
   sort: SortMode;
@@ -19,7 +21,6 @@ const isLoading = ref(true);
 function removeForest() {
   if (!container?.value) return;
 
-  // eslint-disable-next-line import/namespace
   d3.select('#container').select('svg').remove();
   svg.value = undefined;
 }
@@ -27,10 +28,9 @@ function removeForest() {
 function generateForest() {
   if (!container?.value) return;
 
-  // eslint-disable-next-line import/namespace
   svg.value = d3.select('#container').append('svg').attr('viewBox', `0 0 ${SVG_MAX_WIDTH} ${SVG_MAX_HEIGHT}`).attr('preserveAspectRatio', 'xMidYMid meet');
 
-  const forest = new Forest(props.data, svg.value as D3SvgSelection);
+  const forest = new Forest(props.data, svg.value as D3SvgSelection, interactionStore);
   forest.init();
   forest.draw();
 
