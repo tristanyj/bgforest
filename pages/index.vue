@@ -32,12 +32,18 @@ const sortedData = computed(() => {
   <div>
     <div :class="$style.wrapper">
       <div :class="$style.selectWrapper">
-        <div :class="$style.label">Sort by :</div>
+        <label
+          :class="$style.label"
+          for="select-sort"
+        >
+          Sort by :
+        </label>
         <select
           id="select-sort"
           v-model="sortMode"
           name="select"
           :class="$style.select"
+          aria-label="Sort games by"
         >
           <option
             v-for="mode in sortModes"

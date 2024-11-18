@@ -19,14 +19,6 @@ onMounted(() => {
 onUnmounted(() => {
   document.removeEventListener('keydown', handleEscape);
 });
-
-watch(isModalOpen, (newValue) => {
-  if (newValue) {
-    document.body.style.overflow = 'hidden';
-  } else {
-    document.body.style.overflow = '';
-  }
-});
 </script>
 
 <template>
@@ -158,6 +150,7 @@ watch(isModalOpen, (newValue) => {
   background-color: white;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   transition: all 0.3s;
+  will-change: transform;
   max-width: 32rem;
   width: 100%;
 }
@@ -198,7 +191,6 @@ watch(isModalOpen, (newValue) => {
   height: 16rem;
   background-color: #e5e7eb;
   border-radius: 0.5rem;
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
 .game-image {
@@ -281,24 +273,6 @@ watch(isModalOpen, (newValue) => {
   }
   50% {
     opacity: 0.5;
-  }
-}
-
-.overflow-y-auto {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
-
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: rgba(156, 163, 175, 0.5);
-    border-radius: 3px;
   }
 }
 </style>

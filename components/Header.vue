@@ -1,12 +1,12 @@
-<script setup lang="ts">
-import logo from '~/assets/images/logo.png';
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <div :class="['nav-container', $style.container]">
-    <img
-      :src="logo"
+    <NuxtImg
+      src="/logo.png"
       alt="Logo"
+      width="80"
+      height="80"
       :class="$style.logo"
     />
     <div :class="$style.title">Board Game Trees</div>
@@ -74,7 +74,7 @@ import logo from '~/assets/images/logo.png';
 }
 
 .explanation {
-  color: var(--mauve-9);
+  color: var(--mauve-11);
   max-width: 700px;
   margin: 0 auto;
   margin-top: 10px;

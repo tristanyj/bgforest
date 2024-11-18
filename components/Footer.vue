@@ -53,14 +53,14 @@
 }
 
 .link {
-  background-color: var(--mauve-2);
+  background-color: var(--mauve-3);
   padding: 2px;
   margin-left: 2px;
   border-radius: 5px;
   color: var(--mauve-12);
 
   &:hover {
-    background-color: var(--mauve-3);
+    background-color: var(--mauve-4);
   }
 }
 </style>
