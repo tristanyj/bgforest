@@ -4,17 +4,14 @@ const interactionStore = useInteractionStore();
 const { isModalOpen, selectedGame } = storeToRefs(interactionStore);
 const { setSelectedGame } = interactionStore;
 
-// Handle escape key
 function handleEscape(e: KeyboardEvent) {
   if (e.key === 'Escape' && isModalOpen.value) {
     setSelectedGame(null);
   }
 }
 
-// Image loading state
 const imageLoading = ref(true);
 
-// Add/remove event listeners
 onMounted(() => {
   document.addEventListener('keydown', handleEscape);
 });
@@ -23,7 +20,6 @@ onUnmounted(() => {
   document.removeEventListener('keydown', handleEscape);
 });
 
-// Prevent scroll when modal is open
 watch(isModalOpen, (newValue) => {
   if (newValue) {
     document.body.style.overflow = 'hidden';
@@ -41,16 +37,13 @@ watch(isModalOpen, (newValue) => {
       role="dialog"
       aria-modal="true"
     >
-      <!-- Backdrop -->
       <div
         class="modal-backdrop"
         @click="setSelectedGame(null)"
       />
 
-      <!-- Modal panel -->
       <div class="modal-wrapper">
         <div class="modal-content">
-          <!-- Close button -->
           <button
             type="button"
             class="modal-close"
@@ -71,7 +64,6 @@ watch(isModalOpen, (newValue) => {
             </svg>
           </button>
 
-          <!-- Content -->
           <div class="modal-body">
             <div class="modal-layout">
               <!-- Image -->
@@ -89,7 +81,6 @@ watch(isModalOpen, (newValue) => {
                 />
               </div>
 
-              <!-- Info -->
               <div class="info-container">
                 <h3 class="game-rank">#{{ selectedGame?.ranks.boardgame }}</h3>
 
@@ -283,7 +274,6 @@ watch(isModalOpen, (newValue) => {
   transform: scale(0.95);
 }
 
-// Animation
 @keyframes pulse {
   0%,
   100% {
@@ -294,7 +284,6 @@ watch(isModalOpen, (newValue) => {
   }
 }
 
-// Custom scrollbar
 .overflow-y-auto {
   scrollbar-width: thin;
   scrollbar-color: rgba(156, 163, 175, 0.5) transparent;

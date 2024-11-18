@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import * as d3 from 'd3';
 import { ref, onMounted } from 'vue';
-import type { GameData, SortMode, D3SvgSelection } from '~/types';
+import type { Game, SortMode, D3SvgSelection } from '~/types';
 import Forest from '~/assets/scripts/Forest';
 
 const interactionStore = useInteractionStore();
 
 const props = defineProps<{
-  data: GameData[];
+  data: Game[];
   sort: SortMode;
 }>();
 

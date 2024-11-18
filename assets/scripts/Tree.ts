@@ -1,69 +1,16 @@
-/* eslint-disable import/namespace */
-import * as d3 from 'd3';
+import { scaleLinear } from 'd3';
+import { color } from 'd3-color';
 import { createNoise2D } from 'simplex-noise';
-import type { GameData, D3SvgSelection } from '~/types';
+import type { Game, D3SvgSelection } from '~/types';
+import { adjustColor, wrapText } from '~/assets/scripts/utils';
 
 import { useInteractionStore } from '~/stores/interaction';
-
-function adjustColor(color: string) {
-  const hcl = d3.hcl(color);
-  hcl.c += (Math.random() + 0.5) * 10; // Adjust chroma
-  hcl.l += (Math.random() + 0.5) * 10; // Adjust lightness
-  hcl.opacity = 0.029;
-  return hcl.toString();
-}
-
-function wrapText(text: d3.Selection<SVGElement, any, any, any>, maxWidth: number) {
-  text.each(function () {
-    const text = d3.select(this);
-    const words = text.text().split(/\s+/).reverse();
-    let word;
-    let line: string[] = [];
-    let lineNumber = 0;
-    const lineHeight = 1.1; // ems
-    const y = text.attr('y');
-    const dy = parseFloat(text.attr('dy')) || 0;
-    let tspan = text.text(null).append('tspan').attr('x', 0).attr('y', y).attr('dy', `${dy}em`);
-
-    while ((word = words.pop())) {
-      line.push(word);
-      tspan.text(line.join(' '));
-      const computedTextLength = tspan.node()?.getComputedTextLength() || 0;
-      if (computedTextLength && computedTextLength > maxWidth) {
-        line.pop();
-        tspan.text(line.join(' '));
-        line = [word];
-        tspan = text
-          .append('tspan')
-          .attr('x', 0)
-          .attr('y', y)
-          .attr('dy', `${++lineNumber * lineHeight + dy}em`)
-          .text(word);
-      }
-    }
-
-    // Calculate the maximum width of the text block
-    const textWidth = Math.max(
-      ...text
-        .selectAll('tspan')
-        .nodes()
-        .map((tspan) => (tspan ? (tspan as SVGTextElement).getComputedTextLength() : 0)),
-    );
-
-    // Center each line by adjusting the x attribute of each tspan
-    text.selectAll('tspan').each(function () {
-      const tspan = d3.select(this);
-      const tspanWidth = (tspan.node() as SVGTextElement)?.getComputedTextLength() || 0;
-      tspan.attr('x', (textWidth - tspanWidth) / 2);
-    });
-  });
-}
 
 class Tree {
   store: ReturnType<typeof useInteractionStore>;
   group: any;
   index: number;
-  gameData: GameData;
+  game: Game;
   maxDepth: number;
   branchAngle: number;
   ratioBranchAngle: number;
@@ -73,10 +20,10 @@ class Tree {
   colors: string[];
   noise: any;
 
-  constructor(store: ReturnType<typeof useInteractionStore>, index: number, gameData: GameData, initialLength = 50, maxDepth = 7, branchAngle = Math.PI / 7, ratioBranchAngle = 5, lengthFactor = 0.8, leafSize = 15, colors: string[]) {
+  constructor(store: ReturnType<typeof useInteractionStore>, index: number, game: Game, initialLength: number, maxDepth: number, branchAngle: number, ratioBranchAngle: number, lengthFactor: number, leafSize: number, colors: string[]) {
     this.store = store;
     this.index = index;
-    this.gameData = gameData;
+    this.game = game;
     this.maxDepth = maxDepth;
     this.branchAngle = branchAngle;
     this.ratioBranchAngle = ratioBranchAngle;
@@ -106,7 +53,7 @@ class Tree {
         bg.classed('hovered', true);
       })
       .on('click', () => {
-        this.store.setSelectedGame(this.gameData);
+        this.store.setSelectedGame(this.game);
       })
       .on('mouseleave', () => {
         const bg = this.group.select('.tree-background');
@@ -120,13 +67,13 @@ class Tree {
     const x2 = x1 + length * Math.cos(angle);
     const y2 = y1 - length * Math.sin(angle);
 
-    const color = adjustColor(this.colors[Math.floor(Math.random() * this.colors.length)]);
+    const randomColor = adjustColor(this.colors[Math.floor(Math.random() * this.colors.length)]);
 
-    this.group.append('circle').attr('cx', x1).attr('cy', y1).attr('r', this.leafSize).attr('fill', color).attr('stroke', 'none');
+    this.group.append('circle').attr('cx', x1).attr('cy', y1).attr('r', this.leafSize).attr('fill', randomColor).attr('stroke', 'none');
 
-    const lineColor = d3.color('#4b1818');
+    const lineColor = color('#4b1818');
     if (lineColor) {
-      const scale = d3.scaleLinear().domain([-1, 1]).range([0.1, 0.9]);
+      const scale = scaleLinear().domain([-1, 1]).range([0.1, 0.9]);
       lineColor.opacity = scale(this.noise(x1, y1 * 100));
     }
 
@@ -148,7 +95,7 @@ class Tree {
         .attr('y', y1 + 15)
         .attr('class', 'label')
         .attr('stroke-width', 1)
-        .text(() => this.gameData.name)
+        .text(() => this.game.name)
         .call(wrapText, 300);
 
       const bbox = text.node().getBBox();

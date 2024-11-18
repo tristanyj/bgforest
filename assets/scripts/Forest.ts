@@ -1,13 +1,13 @@
 import * as d3 from 'd3';
 import Tree from './Tree';
-import type { GameData, D3SvgSelection } from '~/types';
+import type { Game, D3SvgSelection } from '~/types';
 
 import { useInteractionStore } from '~/stores/interaction';
 
 class Forest {
   store: ReturnType<typeof useInteractionStore>;
   trees: Tree[] = [];
-  data: GameData[];
+  data: Game[];
   svg: D3SvgSelection;
   minYear: number;
   maxYear: number;
@@ -22,7 +22,7 @@ class Forest {
   minNumberOfRatings: number;
   maxNumberOfRatings: number;
 
-  constructor(data: GameData[], svg: D3SvgSelection, store: ReturnType<typeof useInteractionStore>) {
+  constructor(data: Game[], svg: D3SvgSelection, store: ReturnType<typeof useInteractionStore>) {
     this.store = store;
     this.svg = svg;
     this.data = data;
@@ -49,27 +49,21 @@ class Forest {
   }
 
   init() {
-    // Year Published
     const lengthScale = d3.scaleLinear().domain([this.minYear, this.maxYear]).range([65, 40]);
 
-    // Rating
     const lengthFactorScale = d3.scaleLinear().domain([this.minRating, this.maxRating]).range([0.78, 0.89]);
     const leafSizeScale = d3.scaleLinear().domain([this.minRating, this.maxRating]).range([10, 26]);
 
-    // Weight
     // const depthScale = d3.scaleLinear().domain([this.minWeight, this.maxWeight]).range([4, 9]);
     const depthScale = d3.scaleLinear().domain([1, 4.5]).range([4, 9]);
 
-    // Category Rarity
     // const ratioBranchAngleScale = d3.scaleLinear().domain([this.minCategoryScore, this.maxCategoryScore]).range([4, 6]);
 
-    // Owned Number
     const branchAngleScale = d3
       .scaleLinear()
       .domain([this.minOwnedNumber, this.maxOwnedNumber])
       .range([Math.PI / 12, Math.PI / 4]);
 
-    // Number of Ratings
     // const branchAngleScale = d3
     //   .scaleLinear()
     //   .domain([this.minNumberOfRatings, this.maxNumberOfRatings])
@@ -92,7 +86,6 @@ class Forest {
   }
 
   draw() {
-    console.log('Drawing forest...');
     this.trees.forEach((tree) => {
       tree.init(this.svg);
       tree.draw();

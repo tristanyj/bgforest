@@ -1,6 +1,5 @@
 <template>
   <div :class="['nav-container', $style.container]">
-    <!-- <div :class="$style.separator" /> -->
     <div :class="$style.entry">
       Created by
       <NuxtLink
@@ -48,15 +47,6 @@
   margin-top: 40px;
   margin-bottom: 20px;
 }
-
-// .separator {
-//   width: 100%;
-//   margin: 10px auto 30px auto;
-//   max-width: 200px;
-//   height: 1px;
-//   background-color: #000;
-//   opacity: 0.1;
-// }
 
 .entry {
   color: var(--mauve-11);

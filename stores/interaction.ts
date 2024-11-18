@@ -1,4 +1,4 @@
-import type { GameData } from '~/types';
+import type { Game } from '~/types';
 
 export const useInteractionStore = defineStore('interaction', () => {
   // --------------------------------
@@ -6,17 +6,13 @@ export const useInteractionStore = defineStore('interaction', () => {
   // --------------------------------
 
   const isModalOpen = ref(false);
-  const selectedGame = ref<GameData | null>(null);
-
-  // --------------------------------
-  // Computed
-  // --------------------------------
+  const selectedGame = ref<Game | null>(null);
 
   // --------------------------------
   // Methods
   // --------------------------------
 
-  const setSelectedGame = (game: GameData | null) => {
+  const setSelectedGame = (game: Game | null) => {
     requestAnimationFrame(() => {
       isModalOpen.value = !!game;
       selectedGame.value = game;

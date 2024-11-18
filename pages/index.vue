@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { GameData, SortMode } from '~/types';
+import type { Game, SortMode } from '~/types';
 import dataset from '~/assets/dataset.json';
 
 const sortModes: SortMode[] = ['name', 'rating', 'weight', 'year', 'popularity'];
 const sortMode = ref(sortModes[0]);
 
-const data = dataset.games as unknown as GameData[];
+const data = dataset.games as unknown as Game[];
 
 const sortedData = computed(() => {
   if (!data) return [];
@@ -29,29 +29,31 @@ const sortedData = computed(() => {
 </script>
 
 <template>
-  <div :class="$style.wrapper">
-    <div :class="$style.selectWrapper">
-      <div :class="$style.label">Sort by :</div>
-      <select
-        id="select-sort"
-        v-model="sortMode"
-        name="select"
-        :class="$style.select"
-      >
-        <option
-          v-for="mode in sortModes"
-          :key="mode"
-          :value="mode"
+  <div>
+    <div :class="$style.wrapper">
+      <div :class="$style.selectWrapper">
+        <div :class="$style.label">Sort by :</div>
+        <select
+          id="select-sort"
+          v-model="sortMode"
+          name="select"
+          :class="$style.select"
         >
-          {{ mode }}
-        </option>
-      </select>
+          <option
+            v-for="mode in sortModes"
+            :key="mode"
+            :value="mode"
+          >
+            {{ mode }}
+          </option>
+        </select>
+      </div>
     </div>
+    <Trees
+      :data="sortedData"
+      :sort="sortMode"
+    />
   </div>
-  <Trees
-    :data="sortedData"
-    :sort="sortMode"
-  />
 </template>
 
 <style lang="scss" module>
