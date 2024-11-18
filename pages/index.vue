@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import type { GameData, SortMode } from '~/types';
-import cache from '~/assets/cache.json';
+import dataset from '~/assets/dataset.json';
 
 const sortModes: SortMode[] = ['name', 'rating', 'weight', 'year', 'popularity'];
 const sortMode = ref(sortModes[0]);
 
-const data = ref(JSON.parse(JSON.stringify(cache.games))) as Ref<GameData[]>;
+const data = ref(JSON.parse(JSON.stringify(dataset.games))) as Ref<GameData[]>;
 
 const sortedData = computed(() => {
   if (!data.value) return [];

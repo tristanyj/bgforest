@@ -2,7 +2,7 @@
 import * as d3 from 'd3';
 import { ref, onMounted } from 'vue';
 import type { GameData, SortMode, D3SvgSelection } from '~/types';
-import Forest from '~/assets/classes/Forest';
+import Forest from '~/assets/scripts/Forest';
 
 const props = defineProps<{
   data: GameData[];
