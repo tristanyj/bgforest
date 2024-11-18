@@ -1,12 +1,29 @@
+<script setup lang="ts">
+import logo from '~/assets/images/logo.png';
+</script>
+
 <template>
   <div :class="['nav-container', $style.container]">
+    <img
+      :src="logo"
+      alt="Logo"
+      :class="$style.logo"
+    />
     <div :class="$style.title">Board Game Trees</div>
-    <div :class="$style.description">Games from the BoardGameGeek Top 100 re-imagined as trees.</div>
-    <div :class="$style.explanation">Leaf colors correpond to the game's box art. Year of publication and average rating influence tree length and leaf size. Game complexity influences number of ramifications. Popularity influences branches' spread. Click on a game to learn more.</div>
+    <div :class="$style.description">The 100 best board games of all-time re-imagined as trees</div>
+    <div :class="$style.explanation">
+      Data from the BoardGameGeek Top 100; up to date as of november 2024. <br />
+      Leaf colors correpond to the game's box art. Year of publication and average rating influence tree length and leaf size. Game complexity influences number of ramifications. Popularity influences branches' spread. Click on a tree to learn more.
+    </div>
   </div>
 </template>
 
 <style lang="scss" module>
+.logo {
+  width: 80px;
+  margin: 0 auto;
+}
+
 .container {
   gap: 8px;
   padding-top: 60px;
