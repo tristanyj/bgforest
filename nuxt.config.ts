@@ -29,7 +29,6 @@ export default defineNuxtConfig({
           name: 'description',
           content: 'A D3.js experiment with board game data. Each tree represents a board game from the Top 100 Board Games list on BoardGameGeek. Game data is mapped to tree characteristics such as branch angle, branch length, and leaf size.',
         },
-        { name: 'msapplication-TileColor', content: '#da532c' },
         { name: 'theme-color', content: '#ffffff' },
       ],
       link: [

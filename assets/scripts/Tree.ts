@@ -89,7 +89,7 @@ class Tree {
 
   init(svg: D3SvgSelection) {
     this.group = svg.append('g').attr('transform', `translate(${(this.index % 5) * 400 + 200},${Math.floor(this.index / 5) * 400 + 300})`);
-    this.group.append('circle').attr('class', 'tree-background').attr('cx', 0).attr('cy', 0).attr('r', 125).attr('fill', '#000');
+    this.group.append('circle').attr('class', 'tree-background').attr('cx', 0).attr('cy', 0).attr('r', 100).attr('fill', '#000');
   }
 
   interaction() {
