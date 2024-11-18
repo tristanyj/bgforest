@@ -2,7 +2,7 @@
 import type { GameData, SortMode } from '~/types';
 import cache from '~/assets/cache.json';
 
-const sortModes: SortMode[] = ['name', 'rating', 'weight', 'year', 'owned'];
+const sortModes: SortMode[] = ['name', 'rating', 'weight', 'year', 'popularity'];
 const sortMode = ref(sortModes[0]);
 
 const data = ref(JSON.parse(JSON.stringify(cache.games))) as Ref<GameData[]>;
@@ -18,8 +18,8 @@ const sortedData = computed(() => {
       case 'weight':
         return b.weight_average - a.weight_average;
       case 'year':
-        return b.yearpublished - a.yearpublished;
-      case 'owned':
+        return a.yearpublished - b.yearpublished;
+      case 'popularity':
         return b.owned_number - a.owned_number;
       default:
         return 0;
@@ -61,7 +61,7 @@ const sortedData = computed(() => {
   display: grid;
   justify-content: center;
   align-items: center;
-  padding: 20px 0;
+  padding: 20px 0 10px 0;
 }
 
 .selectWrapper {

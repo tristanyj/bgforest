@@ -1,8 +1,17 @@
 <template>
   <div :class="['nav-container', $style.container]">
-    <div :class="$style.separator" />
+    <!-- <div :class="$style.separator" /> -->
     <div :class="$style.entry">
-      Source code
+      Created by
+      <NuxtLink
+        to="https://tristanyj.com"
+        target="_blank"
+        :class="$style.link"
+        >Tristan Lanoye
+      </NuxtLink>
+    </div>
+    <div :class="$style.entry">
+      Source code on
       <NuxtLink
         to="https://github.com/tristanyj/d3-boardgame-forest"
         target="_blank"
@@ -15,6 +24,7 @@
       <NuxtLink
         to="https://shirleywu.studio/filmflowers/"
         target="_blank"
+        rel="noopener noreferrer"
         :class="$style.link"
         >Shirley Wu's Films Flowers
       </NuxtLink>
@@ -24,6 +34,7 @@
       <NuxtLink
         to="https://boardgamegeek.com/browse/boardgame"
         target="_blank"
+        rel="noopener noreferrer"
         :class="$style.link"
         >BoardGameGeek
       </NuxtLink>
@@ -34,17 +45,18 @@
 <style lang="scss" module>
 .container {
   gap: 8px;
-  padding: 0px;
+  margin-top: 50px;
+  margin-bottom: 30px;
 }
 
-.separator {
-  width: 100%;
-  max-width: 200px;
-  margin: 20px auto 30px auto;
-  height: 1px;
-  background-color: #000;
-  opacity: 0.1;
-}
+// .separator {
+//   width: 100%;
+//   margin: 10px auto 30px auto;
+//   max-width: 200px;
+//   height: 1px;
+//   background-color: #000;
+//   opacity: 0.1;
+// }
 
 .entry {
   color: var(--mauve-11);

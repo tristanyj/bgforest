@@ -13,13 +13,11 @@
 }
 
 .loader {
-  border-top: 1.5px solid #3498db;
+  border-top: 1.5px solid var(--mauve-10);
   border-radius: 50%;
   width: 50px;
   height: 50px;
-  animation:
-    spin 0.75s linear infinite,
-    colorChange 2s linear infinite;
+  animation: spin 0.75s linear infinite;
 }
 
 @keyframes spin {
@@ -28,24 +26,6 @@
   }
   100% {
     transform: rotate(360deg);
-  }
-}
-
-@keyframes colorChange {
-  0% {
-    border-top-color: #3498db;
-  }
-  25% {
-    border-top-color: #e74c3c;
-  }
-  50% {
-    border-top-color: #f1c40f;
-  }
-  75% {
-    border-top-color: #2ecc71;
-  }
-  100% {
-    border-top-color: #3498db;
   }
 }
 </style>
