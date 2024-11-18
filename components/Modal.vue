@@ -37,28 +37,27 @@ watch(isModalOpen, (newValue) => {
   <Transition name="modal">
     <div
       v-if="isModalOpen"
-      class="fixed inset-0 z-50 overflow-y-auto"
+      class="modal-container"
       role="dialog"
       aria-modal="true"
     >
       <!-- Backdrop -->
       <div
-        class="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
+        class="modal-backdrop"
         @click="setSelectedGame(null)"
       />
 
       <!-- Modal panel -->
-      <div class="flex min-h-full items-center justify-center p-4">
-        <div class="relative transform overflow-hidden rounded-lg bg-white shadow-xl transition-all max-w-lg w-full">
+      <div class="modal-wrapper">
+        <div class="modal-content">
           <!-- Close button -->
           <button
             type="button"
-            class="absolute right-4 top-4 text-gray-400 hover:text-gray-500"
+            class="modal-close"
             @click="setSelectedGame(null)"
           >
-            <span class="sr-only">Close</span>
             <svg
-              class="h-6 w-6"
+              class="close-icon"
               fill="none"
               viewBox="0 0 24 24"
               stroke-width="1.5"
@@ -73,57 +72,58 @@ watch(isModalOpen, (newValue) => {
           </button>
 
           <!-- Content -->
-          <div class="p-6">
-            <div class="flex gap-6">
+          <div class="modal-body">
+            <div class="modal-layout">
               <!-- Image -->
-              <div class="w-2/5 flex-shrink-0">
+              <div class="image-container">
                 <div
                   v-if="imageLoading"
-                  class="w-full h-64 bg-gray-200 animate-pulse rounded-lg"
+                  class="image-loading"
                 />
                 <img
                   v-show="!imageLoading"
                   :src="selectedGame?.image"
                   :alt="selectedGame?.name"
-                  class="w-full h-auto rounded-lg shadow-lg"
+                  class="game-image"
                   @load="imageLoading = false"
                 />
               </div>
 
               <!-- Info -->
-              <div class="w-3/5">
-                <h3 class="opacity-75">#{{ selectedGame?.ranks.boardgame }}</h3>
+              <div class="info-container">
+                <h3 class="game-rank">#{{ selectedGame?.ranks.boardgame }}</h3>
 
-                <h2 class="text-xl font-bold">
+                <h2 class="game-title">
                   {{ selectedGame?.name }}
                 </h2>
 
-                <div class="mb-2">
+                <div class="link-container">
                   <NuxtLink
                     :href="`https://boardgamegeek.com/boardgame/${selectedGame?.id}`"
                     target="_blank"
                     rel="noopener noreferrer"
+                    class="bgg-link"
                   >
-                    <span class="text-sm text-gray-500 underline hover:text-gray-600">View on BoardGameGeek</span>
+                    <span>View on BoardGameGeek</span>
                   </NuxtLink>
                 </div>
 
                 <!-- Stats -->
-                <div class="grid gap-1">
-                  <div class="text-sm">
-                    <span class="font-semibold">Year :</span>
+                <div class="stats-grid">
+                  <div class="stat-item">
+                    <span class="stat-label">Year :</span>
                     {{ selectedGame?.year_published }}
                   </div>
-                  <div class="text-sm">
-                    <span class="font-semibold">Rating :</span>
+                  <div class="stat-item">
+                    <span class="stat-label">Rating :</span>
                     {{ selectedGame?.rating_average.toFixed(1) }}
                   </div>
-                  <div class="text-sm">
-                    <span class="font-semibold">Weight :</span>
+                  <div class="stat-item">
+                    <span class="stat-label">Weight :</span>
                     {{ selectedGame?.weight_average.toFixed(1) }}
                   </div>
-                  <div class="text-sm">
-                    <span class="font-semibold">Owned by :</span>
+                  <div class="stat-item">
+                    <span class="stat-label">Owned by :</span>
                     {{ selectedGame?.owned_count.toLocaleString() }}
                   </div>
                 </div>
@@ -136,7 +136,130 @@ watch(isModalOpen, (newValue) => {
   </Transition>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
+.modal-container {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  overflow-y: auto;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  transition: opacity 0.3s;
+}
+
+.modal-wrapper {
+  display: flex;
+  min-height: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.modal-content {
+  position: relative;
+  transform: translateY(0);
+  overflow: hidden;
+  border-radius: 0.5rem;
+  background-color: white;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s;
+  max-width: 32rem;
+  width: 100%;
+}
+
+.modal-close {
+  position: absolute;
+  z-index: 10;
+  right: 1rem;
+  top: 1rem;
+  color: #9ca3af;
+
+  &:hover {
+    color: #6b7280;
+  }
+}
+
+.close-icon {
+  height: 1.5rem;
+  width: 1.5rem;
+}
+
+.modal-body {
+  padding: 1.5rem;
+}
+
+.modal-layout {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.image-container {
+  width: 40%;
+  flex-shrink: 0;
+}
+
+.image-loading {
+  width: 100%;
+  height: 16rem;
+  background-color: #e5e7eb;
+  border-radius: 0.5rem;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.game-image {
+  width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.info-container {
+  width: 60%;
+}
+
+.game-rank {
+  opacity: 0.75;
+}
+
+.game-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.link-container {
+  margin-bottom: 0.5rem;
+}
+
+.bgg-link {
+  span {
+    font-size: 0.875rem;
+    color: #6b7280;
+    text-decoration: underline;
+
+    &:hover {
+      color: #4b5563;
+    }
+  }
+}
+
+.stats-grid {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.stat-item {
+  font-size: 0.875rem;
+}
+
+.stat-label {
+  font-weight: 600;
+}
+
+// Transitions
 .modal-enter-active,
 .modal-leave-active {
   transition: opacity 0.3s ease;
@@ -147,35 +270,46 @@ watch(isModalOpen, (newValue) => {
   opacity: 0;
 }
 
-.modal-enter-active .bg-white,
-.modal-leave-active .bg-white {
+.modal-enter-active .modal-content,
+.modal-leave-active .modal-content {
   transition: transform 0.3s ease-out;
 }
 
-.modal-enter-from .bg-white {
+.modal-enter-from .modal-content {
   transform: scale(0.95);
 }
 
-.modal-leave-to .bg-white {
+.modal-leave-to .modal-content {
   transform: scale(0.95);
 }
 
-/* Custom scrollbar for description */
+// Animation
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+// Custom scrollbar
 .overflow-y-auto {
   scrollbar-width: thin;
   scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
-}
 
-.overflow-y-auto::-webkit-scrollbar {
-  width: 6px;
-}
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
 
-.overflow-y-auto::-webkit-scrollbar-track {
-  background: transparent;
-}
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
 
-.overflow-y-auto::-webkit-scrollbar-thumb {
-  background-color: rgba(156, 163, 175, 0.5);
-  border-radius: 3px;
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(156, 163, 175, 0.5);
+    border-radius: 3px;
+  }
 }
 </style>
