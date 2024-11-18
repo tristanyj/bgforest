@@ -1,8 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 
-const SITE_TITLE = 'Board Game Forest | A D3.js Experiment';
-const SITE_DESCRIPTION = 'A D3.js experiment with board game data. Each tree represents a board game from the Top 100 Board Games list on BoardGameGeek. Game data is mapped to tree characteristics such as branch angle, branch length, and leaf size.';
-const SITE_URL = 'https://boardgameforest.com';
+const SITE_TITLE = 'Board Game Trees | The 100 best board games of all-time re-imagined as trees';
+const SITE_DESCRIPTION = 'D3.js experiment to visualize board games as generative trees. Data is sourced from the BoardGameGeek Top 100 list of all-time. Game properties are mapped to tree characteristics such as branch angle, branch length, leaf size or color.';
+const SITE_URL = 'https://gametrees.tristanyj.com';
 
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',

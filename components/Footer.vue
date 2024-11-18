@@ -12,7 +12,7 @@
     <div :class="$style.entry">
       Source code on
       <NuxtLink
-        to="https://github.com/tristanyj/d3-boardgame-forest"
+        to="https://github.com/tristanyj/gametrees"
         target="_blank"
         :class="$style.link"
         >Github
