@@ -1,19 +1,18 @@
 export interface GameData {
   id: string;
   name: string;
-  description: string;
   image: string;
   thumbnail: string;
-  categories: string[];
-  number_of_ratings: number;
+  rating_count: number;
   rating_average: number;
-  owned_number: number;
-  rank: {
+  owned_count: number;
+  weight_average: number;
+  year_published: number;
+  category_score: number;
+  categories: string[];
+  ranks: {
     [key: string]: number;
   };
-  weight_average: number;
-  yearpublished: number;
-  categoryScore: number;
   colors: string[];
 }
 

@@ -5,11 +5,11 @@ import dataset from '~/assets/dataset.json';
 const sortModes: SortMode[] = ['name', 'rating', 'weight', 'year', 'popularity'];
 const sortMode = ref(sortModes[0]);
 
-const data = ref(JSON.parse(JSON.stringify(dataset.games))) as Ref<GameData[]>;
+const data = dataset.games as unknown as GameData[];
 
 const sortedData = computed(() => {
-  if (!data.value) return [];
-  return data.value.sort((a, b) => {
+  if (!data) return [];
+  return data.sort((a, b) => {
     switch (sortMode.value) {
       case 'rating':
         return b.rating_average - a.rating_average;
@@ -18,9 +18,9 @@ const sortedData = computed(() => {
       case 'weight':
         return b.weight_average - a.weight_average;
       case 'year':
-        return a.yearpublished - b.yearpublished;
+        return a.year_published - b.year_published;
       case 'popularity':
-        return b.owned_number - a.owned_number;
+        return b.owned_count - a.owned_count;
       default:
         return 0;
     }
@@ -29,31 +29,29 @@ const sortedData = computed(() => {
 </script>
 
 <template>
-  <div>
-    <div :class="$style.wrapper">
-      <div :class="$style.selectWrapper">
-        <div :class="$style.label">Sort by :</div>
-        <select
-          id="select-sort"
-          v-model="sortMode"
-          name="select"
-          :class="$style.select"
+  <div :class="$style.wrapper">
+    <div :class="$style.selectWrapper">
+      <div :class="$style.label">Sort by :</div>
+      <select
+        id="select-sort"
+        v-model="sortMode"
+        name="select"
+        :class="$style.select"
+      >
+        <option
+          v-for="mode in sortModes"
+          :key="mode"
+          :value="mode"
         >
-          <option
-            v-for="mode in sortModes"
-            :key="mode"
-            :value="mode"
-          >
-            {{ mode }}
-          </option>
-        </select>
-      </div>
+          {{ mode }}
+        </option>
+      </select>
     </div>
-    <Trees
-      :data="sortedData"
-      :sort="sortMode"
-    />
   </div>
+  <Trees
+    :data="sortedData"
+    :sort="sortMode"
+  />
 </template>
 
 <style lang="scss" module>

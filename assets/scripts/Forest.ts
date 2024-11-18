@@ -27,11 +27,11 @@ class Forest {
     this.svg = svg;
     this.data = data;
 
-    this.minYear = Math.min(...data.map((datum) => datum.yearpublished));
-    this.maxYear = Math.max(...data.map((datum) => datum.yearpublished));
+    this.minYear = Math.min(...data.map((datum) => datum.year_published));
+    this.maxYear = Math.max(...data.map((datum) => datum.year_published));
 
-    this.minOwnedNumber = Math.min(...data.map((datum) => datum.owned_number));
-    this.maxOwnedNumber = Math.max(...data.map((datum) => datum.owned_number));
+    this.minOwnedNumber = Math.min(...data.map((datum) => datum.owned_count));
+    this.maxOwnedNumber = Math.max(...data.map((datum) => datum.owned_count));
 
     this.minRating = Math.min(...data.map((datum) => datum.rating_average));
     this.maxRating = Math.max(...data.map((datum) => datum.rating_average));
@@ -39,11 +39,11 @@ class Forest {
     this.minWeight = Math.min(...data.map((datum) => datum.weight_average));
     this.maxWeight = Math.max(...data.map((datum) => datum.weight_average));
 
-    this.minCategoryScore = Math.min(...this.data.map((datum) => datum.categoryScore));
-    this.maxCategoryScore = Math.max(...this.data.map((datum) => datum.categoryScore));
+    this.minCategoryScore = Math.min(...this.data.map((datum) => datum.category_score));
+    this.maxCategoryScore = Math.max(...this.data.map((datum) => datum.category_score));
 
-    this.minNumberOfRatings = Math.min(...this.data.map((datum) => datum.number_of_ratings));
-    this.maxNumberOfRatings = Math.max(...this.data.map((datum) => datum.number_of_ratings));
+    this.minNumberOfRatings = Math.min(...this.data.map((datum) => datum.rating_count));
+    this.maxNumberOfRatings = Math.max(...this.data.map((datum) => datum.rating_count));
 
     this.init();
   }
@@ -77,9 +77,9 @@ class Forest {
 
     for (let i = 0; i < this.data.length; i++) {
       const datum = this.data[i];
-      const initialLength = Math.min(Math.max(lengthScale(datum.yearpublished), 40), 65);
+      const initialLength = Math.min(Math.max(lengthScale(datum.year_published), 40), 65);
       const maxDepth = depthScale(datum.weight_average);
-      const branchAngle = branchAngleScale(datum.number_of_ratings);
+      const branchAngle = branchAngleScale(datum.rating_count);
       const lengthFactor = lengthFactorScale(datum.rating_average);
       // const ratioBranchAngle = ratioBranchAngleScale(datum.categoryScore);
       const ratioBranchAngle = 5;
@@ -92,9 +92,11 @@ class Forest {
   }
 
   draw() {
+    console.log('Drawing forest...');
     this.trees.forEach((tree) => {
       tree.init(this.svg);
       tree.draw();
+      tree.interaction();
     });
   }
 }

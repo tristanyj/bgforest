@@ -45,6 +45,20 @@ svg {
   text-align: center;
 }
 
+.tree-background {
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.tree-background.hovered {
+  opacity: 0.025;
+  cursor: pointer;
+}
+
+.tree-background-hover {
+  cursor: pointer;
+}
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s ease;

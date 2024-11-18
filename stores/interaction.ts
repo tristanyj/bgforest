@@ -1,11 +1,5 @@
 import type { GameData } from '~/types';
 
-export type InteractionStore = {
-  isModalOpen: Ref<boolean>;
-  selectedGame: Ref<GameData | null>;
-  setSelectedGame: (game: GameData | null) => void;
-};
-
 export const useInteractionStore = defineStore('interaction', () => {
   // --------------------------------
   // State
@@ -22,9 +16,11 @@ export const useInteractionStore = defineStore('interaction', () => {
   // Methods
   // --------------------------------
 
-  const setSelectedGame = (category: GameData | null) => {
-    console.log('setSelectedGame', category);
-    selectedGame.value = category;
+  const setSelectedGame = (game: GameData | null) => {
+    requestAnimationFrame(() => {
+      isModalOpen.value = !!game;
+      selectedGame.value = game;
+    });
   };
 
   return {

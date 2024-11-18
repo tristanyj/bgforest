@@ -89,24 +89,33 @@ class Tree {
 
   init(svg: D3SvgSelection) {
     this.group = svg.append('g').attr('transform', `translate(${(this.index % 5) * 400 + 200},${Math.floor(this.index / 5) * 400 + 300})`);
-    this.group.append('rect').attr('class', 'tree-background').attr('x', -200).attr('y', -260).attr('width', 400).attr('height', 400).attr('fill', '#000');
+    this.group.append('circle').attr('class', 'tree-background').attr('cx', 0).attr('cy', 0).attr('r', 125).attr('fill', '#000');
+  }
+
+  interaction() {
+    this.group
+      .append('rect')
+      .attr('class', 'tree-background-hover')
+      .attr('x', -200)
+      .attr('y', -260)
+      .attr('width', 400)
+      .attr('height', 400)
+      .attr('fill', 'transparent')
+      .on('mouseenter', () => {
+        const bg = this.group.select('.tree-background');
+        bg.classed('hovered', true);
+      })
+      .on('click', () => {
+        this.store.setSelectedGame(this.gameData);
+      })
+      .on('mouseleave', () => {
+        const bg = this.group.select('.tree-background');
+        bg.classed('hovered', false);
+      });
   }
 
   draw(length = this.initialLength, angle = Math.PI / 2, x1 = 0, y1 = 0, depth = this.maxDepth) {
-    if (depth <= 0) {
-      this.group
-        .append('rect')
-        .attr('class', 'tree-background-hover')
-        .attr('x', -200)
-        .attr('y', -260)
-        .attr('width', 400)
-        .attr('height', 400)
-        .attr('fill', 'transparent')
-        .on('click', () => {
-          this.store.setSelectedGame(this.gameData);
-        });
-      return;
-    }
+    if (depth <= 0) return;
 
     const x2 = x1 + length * Math.cos(angle);
     const y2 = y1 - length * Math.sin(angle);

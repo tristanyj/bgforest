@@ -58,6 +58,7 @@ watch(
 
 <template>
   <Loader v-if="isLoading" />
+  <Modal />
   <div
     id="container"
     ref="container"

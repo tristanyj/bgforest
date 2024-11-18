@@ -45,8 +45,8 @@
 <style lang="scss" module>
 .container {
   gap: 8px;
-  margin-top: 50px;
-  margin-bottom: 30px;
+  margin-top: 40px;
+  margin-bottom: 20px;
 }
 
 // .separator {
