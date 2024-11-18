@@ -2,7 +2,7 @@
   <div :class="['nav-container', $style.container]">
     <div :class="$style.title">Board Game Trees</div>
     <div :class="$style.description">Games from the BoardGameGeek Top 100 re-imagined as trees.</div>
-    <div :class="$style.explanation">Leaf colors correpond to the game's box art. Year of publication influences tree length. Average rating influences tree length and leaf size. Game complexity influences number of ramifications. Number of games owned and category rarity influence branches' spread.</div>
+    <div :class="$style.explanation">Leaf colors correpond to the game's box art. Year of publication and average rating influence tree length and leaf size. Game complexity influences number of ramifications. Popularity influences branches' spread. Click on a game to learn more.</div>
   </div>
 </template>
 

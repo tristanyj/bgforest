@@ -49,7 +49,7 @@ watch(isModalOpen, (newValue) => {
 
       <!-- Modal panel -->
       <div class="flex min-h-full items-center justify-center p-4">
-        <div class="relative transform overflow-hidden rounded-lg bg-white shadow-xl transition-all max-w-2xl w-full">
+        <div class="relative transform overflow-hidden rounded-lg bg-white shadow-xl transition-all max-w-lg w-full">
           <!-- Close button -->
           <button
             type="button"
@@ -76,7 +76,7 @@ watch(isModalOpen, (newValue) => {
           <div class="p-6">
             <div class="flex gap-6">
               <!-- Image -->
-              <div class="w-1/3 flex-shrink-0">
+              <div class="w-2/5 flex-shrink-0">
                 <div
                   v-if="imageLoading"
                   class="w-full h-64 bg-gray-200 animate-pulse rounded-lg"
@@ -91,27 +91,39 @@ watch(isModalOpen, (newValue) => {
               </div>
 
               <!-- Info -->
-              <div class="w-2/3">
-                <h2 class="text-2xl font-bold mb-4">
+              <div class="w-3/5">
+                <h3 class="opacity-75">#{{ selectedGame?.ranks.boardgame }}</h3>
+
+                <h2 class="text-xl font-bold">
                   {{ selectedGame?.name }}
                 </h2>
 
+                <div class="mb-2">
+                  <NuxtLink
+                    :href="`https://boardgamegeek.com/boardgame/${selectedGame?.id}`"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <span class="text-sm text-gray-500 underline hover:text-gray-600">View on BoardGameGeek</span>
+                  </NuxtLink>
+                </div>
+
                 <!-- Stats -->
-                <div class="grid grid-cols-2 gap-4 mb-6">
+                <div class="grid gap-1">
                   <div class="text-sm">
-                    <span class="font-semibold">Year:</span>
+                    <span class="font-semibold">Year :</span>
                     {{ selectedGame?.year_published }}
                   </div>
                   <div class="text-sm">
-                    <span class="font-semibold">Rating:</span>
+                    <span class="font-semibold">Rating :</span>
                     {{ selectedGame?.rating_average.toFixed(1) }}
                   </div>
                   <div class="text-sm">
-                    <span class="font-semibold">Weight:</span>
+                    <span class="font-semibold">Weight :</span>
                     {{ selectedGame?.weight_average.toFixed(1) }}
                   </div>
                   <div class="text-sm">
-                    <span class="font-semibold">Owned by:</span>
+                    <span class="font-semibold">Owned by :</span>
                     {{ selectedGame?.owned_count.toLocaleString() }}
                   </div>
                 </div>
