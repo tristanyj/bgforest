@@ -5,8 +5,8 @@
     <NuxtImg
       src="/logo.png"
       alt="Logo"
-      width="80"
-      height="80"
+      width="481"
+      height="442"
       :class="$style.logo"
     />
     <div :class="$style.title">Board Game Trees</div>
@@ -20,8 +20,12 @@
 
 <style lang="scss" module>
 .logo {
-  width: 80px;
+  width: 85px;
   margin: 0 auto;
+  border: 1px solid var(--mauve-3);
+  border-radius: 50%;
+  padding: 10px;
+  background: var(--mauve-2);
 }
 
 .container {

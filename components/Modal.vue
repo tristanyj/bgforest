@@ -99,11 +99,11 @@ onUnmounted(() => {
                   </div>
                   <div class="stat-item">
                     <span class="stat-label">Rating :</span>
-                    {{ selectedGame?.rating_average.toFixed(1) }}
+                    {{ selectedGame?.rating_average.toFixed(1) }}<span class="opacity-50"> /10</span>
                   </div>
                   <div class="stat-item">
-                    <span class="stat-label">Weight :</span>
-                    {{ selectedGame?.weight_average.toFixed(1) }}
+                    <span class="stat-label">Complexity :</span>
+                    {{ selectedGame?.weight_average.toFixed(1) }}<span class="opacity-50"> /5</span>
                   </div>
                   <div class="stat-item">
                     <span class="stat-label">Owned by :</span>
@@ -188,7 +188,7 @@ onUnmounted(() => {
 
 .image-loading {
   width: 100%;
-  height: 16rem;
+  height: 5rem;
   background-color: #e5e7eb;
   border-radius: 0.5rem;
 }

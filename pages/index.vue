@@ -2,7 +2,7 @@
 import type { Game, SortMode } from '~/types';
 import dataset from '~/assets/dataset.json';
 
-const sortModes: SortMode[] = ['name', 'rating', 'weight', 'year', 'popularity'];
+const sortModes: SortMode[] = ['name', 'rating', 'complexity', 'year', 'popularity'];
 const sortMode = ref(sortModes[0]);
 
 const data = dataset.games as unknown as Game[];
@@ -15,7 +15,7 @@ const sortedData = computed(() => {
         return b.rating_average - a.rating_average;
       case 'name':
         return a.name.localeCompare(b.name);
-      case 'weight':
+      case 'complexity':
         return b.weight_average - a.weight_average;
       case 'year':
         return a.year_published - b.year_published;
