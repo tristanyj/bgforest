@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 
-const SITE_TITLE = 'Board Game Trees | The 100 best board games of all-time re-imagined as trees';
+const SITE_TITLE = 'Board Game Trees — The 100 best board games of all-time re-imagined as trees';
 const SITE_DESCRIPTION = 'D3.js experiment to visualize board games as generative trees. Data is sourced from the BoardGameGeek Top 100 list of all-time. Game properties are mapped to tree characteristics such as branch angle, branch length, leaf size or color.';
 const SITE_URL = 'https://gametrees.tristanyj.com';
 

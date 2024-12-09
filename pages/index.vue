@@ -2,6 +2,10 @@
 import type { Game, SortMode } from '~/types';
 import dataset from '~/assets/dataset.json';
 
+useHead({
+  title: 'Board Game Trees — The 100 best board games of all-time re-imagined as trees',
+});
+
 const sortModes: SortMode[] = ['name', 'rating', 'complexity', 'year', 'popularity'];
 const sortMode = ref(sortModes[0]);
 
